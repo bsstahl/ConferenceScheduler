@@ -81,11 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConferenceScheduler\ConferenceScheduler.csproj">
-      <Project>{fc1b17fd-6629-4da6-b9ba-e5684d6c056e}</Project>
+      <Project>{6B73BAC4-25FA-4423-9EFC-AD13DDF0F351}</Project>
       <Name>ConferenceScheduler</Name>
     </ProjectReference>
     <ProjectReference Include="..\Optimizer.Glop\Optimizer.Glop.csproj">
-      <Project>{710a33e1-1e6e-4dad-be14-cf2096ae6713}</Project>
+      <Project>{891bd01d-7575-4d71-8fc3-9cf6eb405cc5}</Project>
       <Name>Optimizer.Glop</Name>
     </ProjectReference>
   </ItemGroup>
