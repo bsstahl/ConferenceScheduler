@@ -28,8 +28,8 @@ namespace ConferenceScheduler.Entities
         public SessionsCollection(IEnumerable<Session> sessions)
         {
             if (sessions != null && sessions.Any())
-            foreach (var session in sessions)
-                this.Add(session);
+                foreach (var session in sessions)
+                    this.Add(session);
         }
 
         /// <summary>
@@ -41,7 +41,20 @@ namespace ConferenceScheduler.Entities
         /// <returns>The session object that was added to the collection</returns>
         public Session Add(int id, int? topicId, params Presenter[] presenters)
         {
-            var session = CreateSession(id, topicId, presenters);
+            return this.Add(id, string.Empty, topicId, presenters);
+        }
+
+        /// <summary>
+        /// Add a new session to the collection
+        /// </summary>
+        /// <param name="id">The unique identifier of the session</param>
+        /// <param name="name">The title of the session (used for display)</param>
+        /// <param name="topicId">The unique identifier of the topic (track) of the session</param>
+        /// <param name="presenters">The collection of people who will be presenting the session</param>
+        /// <returns>The session object that was added to the collection</returns>
+        public Session Add(int id, string name, int? topicId, params Presenter[] presenters)
+        {
+            var session = CreateSession(id, name, topicId, presenters);
             this.Add(session);
             return session;
         }
@@ -80,14 +93,16 @@ namespace ConferenceScheduler.Entities
         /// 
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="name">The title of the session (used for display)</param>
         /// <param name="topicId"></param>
         /// <param name="presenters"></param>
         /// <returns></returns>
-        public static Session CreateSession(int id, int? topicId, IEnumerable<Presenter> presenters)
+        public static Session CreateSession(int id, string name, int? topicId, IEnumerable<Presenter> presenters)
         {
             return new Session()
             {
                 Id = id,
+                Name = name,
                 TopicId = topicId,
                 Presenters = presenters
             };

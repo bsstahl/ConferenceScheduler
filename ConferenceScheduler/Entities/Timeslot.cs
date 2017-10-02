@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferenceScheduler.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ConferenceScheduler.Entities
     /// Represents a duration of time during which a conference session can occur
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes")]
-    public class Timeslot : IComparable<Timeslot>
+    public class Timeslot : IComparable<Timeslot>, IIdentifiable
     {
         /// <summary>
         /// The primary-key identifier of the object

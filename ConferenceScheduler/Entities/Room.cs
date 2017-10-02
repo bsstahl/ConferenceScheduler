@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferenceScheduler.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ConferenceScheduler.Entities
     /// <summary>
     /// Represents a location for a session.
     /// </summary>
-    public class Room
+    public class Room : IIdentifiable
     {
         /// <summary>
         /// The primary-key identifier of the object

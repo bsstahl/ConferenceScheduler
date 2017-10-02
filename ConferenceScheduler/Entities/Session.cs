@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferenceScheduler.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ConferenceScheduler.Entities
     /// <summary>
     /// Represents a session (presentation) to be delivered at the conference
     /// </summary>
-    public class Session
+    public class Session : IIdentifiable
     {
         private List<Session> _dependentSessions;
 
@@ -16,6 +17,12 @@ namespace ConferenceScheduler.Entities
         /// The primary-key identifier of the object
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The title of the session.
+        /// </summary>
+        /// <remarks>This field is used for display only and is not needed by the optimizer</remarks>
+        public string Name { get; set; }
 
         /// <summary>
         /// The primary-key identifier of the Topic (Track) of the session
@@ -31,9 +38,9 @@ namespace ConferenceScheduler.Entities
         /// Contains the list of sessions that this session is dependent upon.
         /// All dependencies must happen prior to this session.
         /// </summary>
-        public IEnumerable<Session> Dependencies 
+        public IEnumerable<Session> Dependencies
         {
-            get { return _dependentSessions; } 
+            get { return _dependentSessions; }
         }
 
         /// <summary>
@@ -184,5 +191,37 @@ namespace ConferenceScheduler.Entities
             return sessions.Where(s => s.Dependencies != null && s.Dependencies.Count(d => d.Id == this.Id) > 0);
         }
 
+        // TODO: Document
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToString(15);
+        }
+
+        // TODO: Document
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object)")]
+        public string ToString(int maxWidth)
+        {
+            if (maxWidth < 6)
+                maxWidth = 6;
+
+            string result;
+            if (string.IsNullOrWhiteSpace(this.Name))
+                result = this.Id.ToString(System.Globalization.CultureInfo.CurrentCulture).PadRight(maxWidth);
+            else
+            {
+                var fullName = this.Name;
+                int maxNameWidth = maxWidth - 5;
+                result = $"{fullName.Substring(0, Math.Min(fullName.Length, maxNameWidth)).PadRight(maxNameWidth)} ({this.Id.ToString(System.Globalization.CultureInfo.CurrentCulture)})";
+            }
+            return result;
+        }
     }
 }
