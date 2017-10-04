@@ -19,22 +19,21 @@ namespace ConferenceScheduler.Optimizer.Glop
             return solver;
         }
 
-        public static Variable[] CreateRoomVariables(this Solver model, int sessionCount, int roomCount)
+        public static Variable[] CreateRoomVariables(this Solver model, int sessionCount, int roomCount, bool disableTrace)
         {
             var r = new Variable[sessionCount];
 
             for (int s = 0; s < sessionCount; s++)
             {
                 r[s] = model.MakeIntVar(0, roomCount, $"z[{s}]");
-#if TRACE
-                Console.WriteLine($"Variable: z[{s}]");
-#endif
+                if (!disableTrace)
+                    Console.WriteLine($"Variable: z[{s}]");
             }
 
             return r;
         }
 
-        public static Variable[,,] CreateAssignmentVariables(this Solver model, int sessionCount, int roomCount, int timeslotCount)
+        public static Variable[,,] CreateAssignmentVariables(this Solver model, int sessionCount, int roomCount, int timeslotCount, bool disableTrace)
         {
             var v = new Variable[sessionCount, roomCount, timeslotCount];
             for (int s = 0; s < sessionCount; s++)
@@ -42,16 +41,15 @@ namespace ConferenceScheduler.Optimizer.Glop
                     for (int t = 0; t < timeslotCount; t++)
                     {
                         v[s, r, t] = model.MakeBoolVar($"x[{s},{r},{t}]");
-#if TRACE
-                        Console.WriteLine($"Variable: x[{s},{r},{t}]");
-#endif
+                        if (!disableTrace)
+                            Console.WriteLine($"Variable: x[{s},{r},{t}]");
                     }
 
             return v;
         }
 
 
-        public static void CreateOneSessionPerRoomTimeslotConstraint(this Solver model, Variable[,,] v, int sessionCount, int roomCount, int timeslotCount)
+        public static void CreateOneSessionPerRoomTimeslotConstraint(this Solver model, Variable[,,] v, int sessionCount, int roomCount, int timeslotCount, bool disableTrace)
         {
             // Each room can have no more than 1 session per timeslot
             for (int rm = 0; rm < roomCount; rm++)
@@ -61,13 +59,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                     for (int s = 0; s < sessionCount; s++)
                         expr.SetCoefficient(v[s, rm, t], 1);
 
-#if TRACE
-                    Console.WriteLine($"x[*,{rm},{t}]_LessEqual_1");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"x[*,{rm},{t}]_LessEqual_1");
                 }
         }
 
-        public static void CreateAssignEverySessionOnceConstraint(this Solver model, Variable[,,] v, int sessionCount, int roomCount, int timeslotCount)
+        public static void CreateAssignEverySessionOnceConstraint(this Solver model, Variable[,,] v, int sessionCount, int roomCount, int timeslotCount, bool disableTrace)
         {
             // Each session must be assigned to exactly 1 room/timeslot combination
             for (int s = 0; s < sessionCount; s++)
@@ -77,13 +74,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                     for (int t = 0; t < timeslotCount; t++)
                         expr.SetCoefficient(v[s, rm, t], 1.0);
 
-#if TRACE
-                Console.WriteLine($"x[{s},*,*]_Equals_1");
-#endif
+                if (!disableTrace)
+                    Console.WriteLine($"x[{s},*,*]_Equals_1");
             }
         }
 
-        public static void CreateRoomUnavailableConstraint(this Solver model, Variable[,,] v, IEnumerable<Room> rooms, int[] roomIds, int[] timeslotIds, int sessionCount)
+        public static void CreateRoomUnavailableConstraint(this Solver model, Variable[,,] v, IEnumerable<Room> rooms, int[] roomIds, int[] timeslotIds, int sessionCount, bool disableTrace)
         {
             // No room can be assigned to a session in a timeslot 
             // during which it is not available
@@ -96,14 +92,13 @@ namespace ConferenceScheduler.Optimizer.Glop
                     Constraint expr = model.MakeConstraint(0.0, 0.0, $"x[*,{roomIndex},{utsi}]_Equals_0");
                     for (int s = 0; s < sessionCount; s++)
                         expr.SetCoefficient(v[s, roomIndex, utsi], 1.0);
-#if TRACE
-                    Console.WriteLine($"x[*,{roomIndex},{utsi}]_Equals_0");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"x[*,{roomIndex},{utsi}]_Equals_0");
                 }
             }
         }
 
-        public static void CreatePresenterUnavailableConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int[] timeslotIds, int roomCount)
+        public static void CreatePresenterUnavailableConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int[] timeslotIds, int roomCount, bool disableTrace)
         {
             // Sessions cannot be assigned to a timeslot during which
             // any presenter is unavailable
@@ -132,14 +127,13 @@ namespace ConferenceScheduler.Optimizer.Glop
                     foreach (var utsi in unavailableTimeslotIndexes.Distinct())
                         for (int rm = 0; rm < roomCount; rm++)
                             expr.SetCoefficient(v[sessionIndex, rm, utsi], 1.0);
-#if TRACE
-                    Console.WriteLine($"PresentersUnavailableForTimeslot_{session.Name}");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"PresentersUnavailableForTimeslot_{session.Name}");
                 }
             }
         }
 
-        public static void CreatePresenterCanOnlyPresentOneSessionAtATimeConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount)
+        public static void CreatePresenterCanOnlyPresentOneSessionAtATimeConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount, bool disableTrace)
         {
             // A speaker can only be involved with 1 session per timeslot
             var speakerIds = sessions.SelectMany(s => s.Presenters.Select(p => p.Id)).Distinct();
@@ -151,12 +145,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                     {
                         int session1Index = sessionIds.IndexOfValue(pIds[i]).Value;
                         int session2Index = sessionIds.IndexOfValue(pIds[j]).Value;
-                        model.CreateConstraintSessionsMustBeInDifferentTimeslots(v, session1Index, session2Index, timeslotCount, roomCount);
+                        model.CreateConstraintSessionsMustBeInDifferentTimeslots(v, session1Index, session2Index, timeslotCount, roomCount, disableTrace);
                     }
             }
         }
 
-        public static void CreateConstraintSessionsMustBeInDifferentTimeslots(this Solver model, Variable[,,] v, int session1Index, int session2Index, int timeslotCount, int roomCount)
+        public static void CreateConstraintSessionsMustBeInDifferentTimeslots(this Solver model, Variable[,,] v, int session1Index, int session2Index, int timeslotCount, int roomCount, bool disableTrace)
         {
             for (int t = 0; t < timeslotCount; t++)
             {
@@ -166,13 +160,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                     expr.SetCoefficient(v[session1Index, r, t], 1.0);
                     expr.SetCoefficient(v[session2Index, r, t], 1.0);
                 }
-#if TRACE
-                Console.WriteLine($"x[{session1Index},*,{t}]_NotEqual_x[{session2Index},*,{t}]");
-#endif
+                if (!disableTrace)
+                    Console.WriteLine($"x[{session1Index},*,{t}]_NotEqual_x[{session2Index},*,{t}]");
             }
         }
 
-        public static void CreateLimitOnTopicIdsInASingleTimeslotConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount)
+        public static void CreateLimitOnTopicIdsInASingleTimeslotConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount, bool disableTrace)
         {
             // A timeslot should have no more sessions in a particular 
             // topicId than absolutely necessary.
@@ -191,14 +184,13 @@ namespace ConferenceScheduler.Optimizer.Glop
                         for (int rm = 0; rm < roomCount; rm++)
                             expr.SetCoefficient(v[sessionIndex, rm, t], 1.0);
                     }
-#if TRACE
-                    Console.WriteLine($"x[(topicId={topicId}),*,{t}]_LessEqual_{maxTopicCount}");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"x[(topicId={topicId}),*,{t}]_LessEqual_{maxTopicCount}");
                 }
             }
         }
 
-        public static void CreateLimitOnSessionsInATimeslotConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount)
+        public static void CreateLimitOnSessionsInATimeslotConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount, bool disableTrace)
         {
             // A timeslot should have no more sessions than absolutely necessary.
             // This serves to distribute the sessions around so we don't end up with 
@@ -216,13 +208,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                     for (int rm = 0; rm < roomCount; rm++)
                         expr.SetCoefficient(v[sessionIndex, rm, t], 1.0);
                 }
-#if TRACE
-                Console.WriteLine($"x[*,*,{t}]_LessEqual_{maxSessionCount}");
-#endif
+                if (!disableTrace)
+                    Console.WriteLine($"x[*,*,{t}]_LessEqual_{maxSessionCount}");
             }
         }
 
-        public static void CreateDependenciesMustBeScheduledInOrderConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount)
+        public static void CreateDependenciesMustBeScheduledInOrderConstraint(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount, bool disableTrace)
         {
             // All sessions with dependencies on a session must be scheduled
             // later (with a higher timeslot index value) than that session S
@@ -243,22 +234,20 @@ namespace ConferenceScheduler.Optimizer.Glop
                         }
 
                     model.Add(dExpr <= sExpr);
-#if TRACE
-                    Console.WriteLine($"s[{sessionIndex},*,*]_GreaterThan_s[{dependentSessionIndex},*,*]");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"s[{sessionIndex},*,*]_GreaterThan_s[{dependentSessionIndex},*,*]");
                 }
             }
         }
 
-        public static void CreateRoomVariableConstraints(this Solver model, Variable[,,] v, Variable[] r, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount)
+        public static void CreateRoomVariableConstraints(this Solver model, Variable[,,] v, Variable[] r, IEnumerable<Session> sessions, int[] sessionIds, int roomCount, int timeslotCount, bool disableTrace)
         {
             // Variable R[s] should hold the room # of the session
             foreach (var session in sessions)
             {
                 int sessionIndex = sessionIds.IndexOfValue(session.Id).Value;
-#if TRACE
-                Console.WriteLine($"r[{sessionIndex}]=RoomIndex");
-#endif
+                if (!disableTrace)
+                    Console.WriteLine($"r[{sessionIndex}]=RoomIndex");
                 var expr = new LinearExpr();
                 for (int t = 0; t < timeslotCount; t++)
                     for (int rm = 0; rm < roomCount; rm++)
@@ -268,7 +257,7 @@ namespace ConferenceScheduler.Optimizer.Glop
             }
         }
 
-        public static void CreateLimitsOnRoomsForATimeslotConstraints(this Solver model, Variable[] r, IEnumerable<Session> sessions, int[] sessionIds, int timeslotCount)
+        public static void CreateLimitsOnRoomsForATimeslotConstraints(this Solver model, Variable[] r, IEnumerable<Session> sessions, int[] sessionIds, int timeslotCount, bool disableTrace)
         {
             // A topicId should be spread-out across no more rooms than absolutely necessary.
             var topicIds = sessions.Where(s => s.TopicId.HasValue).Select(s => s.TopicId.Value).Distinct();
@@ -277,15 +266,13 @@ namespace ConferenceScheduler.Optimizer.Glop
                 double topicCount = sessions.Count(s => s.TopicId == topicId);
                 if (topicCount > timeslotCount)
                 {
-#if TRACE
-                    Console.WriteLine($"Topic {topicId} has {topicCount} sessions which is more than the {timeslotCount} timeslots.  This topic will not be included in a track");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"Topic {topicId} has {topicCount} sessions which is more than the {timeslotCount} timeslots.  This topic will not be included in a track");
                 }
                 else if (topicCount == 1)
                 {
-#if TRACE
-                    Console.WriteLine($"Topic {topicId} has only 1 session.  This topic will not be included in a track");
-#endif
+                    if (!disableTrace)
+                        Console.WriteLine($"Topic {topicId} has only 1 session.  This topic will not be included in a track");
                 }
                 else
                 {
@@ -298,16 +285,15 @@ namespace ConferenceScheduler.Optimizer.Glop
                         {
                             int otherSessionIndex = sessionIds.IndexOfValue(otherSession.Id).Value;
                             model.Add(r[sessionIndex] == r[otherSessionIndex]);
-#if TRACE
-                            Console.WriteLine($"z[{sessionIndex}]_Equal_z[{otherSessionIndex}]");
-#endif
+                            if (!disableTrace)
+                                Console.WriteLine($"z[{sessionIndex}]_Equal_z[{otherSessionIndex}]");
                         }
                     }
                 }
             }
         }
 
-        public static void CreateObjective(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, IEnumerable<Room> rooms, int[] timeslotIds)
+        public static void CreateObjective(this Solver model, Variable[,,] v, IEnumerable<Session> sessions, IEnumerable<Room> rooms, int[] timeslotIds, bool disableTrace)
         {
             // Add objective to improve # of presenter's preferred timeslots used
             var sessionIds = sessions.GetIdCollection();
@@ -322,13 +308,12 @@ namespace ConferenceScheduler.Optimizer.Glop
                                 int sessionIndex = sessionIds.IndexOfValue(session.Id).Value;
                                 int timeslotIndex = timeslotIds.IndexOfValue(timeslotId).Value;
                                 objective.SetCoefficient(v[sessionIndex, roomIndex, timeslotIndex], 1);
-#if TRACE
-                                Console.WriteLine($"Objective Coefficient: x[{sessionIndex},{roomIndex},{timeslotIndex}]");
-#endif
+                                if (!disableTrace)
+                                    Console.WriteLine($"Objective Coefficient: x[{sessionIndex},{roomIndex},{timeslotIndex}]");
                             }
         }
 
-        public static void CreateConstraints(this Solver model, Variable[,,] v, Variable[] r, IEnumerable<Session> sessions, IEnumerable<Room> rooms, int[] timeslotIds)
+        public static void CreateConstraints(this Solver model, Variable[,,] v, Variable[] r, IEnumerable<Session> sessions, IEnumerable<Room> rooms, int[] timeslotIds, bool disableTrace)
         {
             int sessionCount = sessions.Count();
             int roomCount = rooms.Count();
@@ -337,17 +322,17 @@ namespace ConferenceScheduler.Optimizer.Glop
             var sessionIds = sessions.GetIdCollection();
             var roomIds = rooms.GetIdCollection();
 
-            model.CreateOneSessionPerRoomTimeslotConstraint(v, sessionCount, roomCount, timeslotCount);
-            model.CreateAssignEverySessionOnceConstraint(v, sessionCount, roomCount, timeslotCount);
-            model.CreateRoomUnavailableConstraint(v, rooms, roomIds, timeslotIds, sessionCount);
-            model.CreatePresenterUnavailableConstraint(v, sessions, sessionIds, timeslotIds, roomCount);
-            model.CreatePresenterCanOnlyPresentOneSessionAtATimeConstraint(v, sessions, sessionIds, roomCount, timeslotCount);
-            model.CreateLimitOnTopicIdsInASingleTimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount);
-            model.CreateLimitOnSessionsInATimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount);
-            model.CreateDependenciesMustBeScheduledInOrderConstraint(v, sessions, sessionIds, roomCount, timeslotCount);
+            model.CreateOneSessionPerRoomTimeslotConstraint(v, sessionCount, roomCount, timeslotCount, disableTrace);
+            model.CreateAssignEverySessionOnceConstraint(v, sessionCount, roomCount, timeslotCount, disableTrace);
+            model.CreateRoomUnavailableConstraint(v, rooms, roomIds, timeslotIds, sessionCount, disableTrace);
+            model.CreatePresenterUnavailableConstraint(v, sessions, sessionIds, timeslotIds, roomCount, disableTrace);
+            model.CreatePresenterCanOnlyPresentOneSessionAtATimeConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
+            model.CreateLimitOnTopicIdsInASingleTimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
+            model.CreateLimitOnSessionsInATimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
+            model.CreateDependenciesMustBeScheduledInOrderConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
 
-            model.CreateRoomVariableConstraints(v, r, sessions, sessionIds, roomCount, timeslotCount);
-            model.CreateLimitsOnRoomsForATimeslotConstraints(r, sessions, sessionIds, timeslotCount);
+            model.CreateRoomVariableConstraints(v, r, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
+            model.CreateLimitsOnRoomsForATimeslotConstraints(r, sessions, sessionIds, timeslotCount, disableTrace);
 
             //// Variable Y[r,t] should hold the topic id of the session scheduled in the room during that timeslot
             //for (int r = 0; r < roomCount; r++)

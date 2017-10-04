@@ -12,6 +12,7 @@ namespace ConferenceScheduler.Optimizer.Glop
 {
     public class Engine : ConferenceScheduler.Interfaces.IConferenceOptimizer
     {
+        bool _disableTrace;
         Action<ProcessUpdateEventArgs> _updateEventHandler;
 
         // v holds a boolean indicator for each room/timeslot/session combination.
@@ -27,9 +28,10 @@ namespace ConferenceScheduler.Optimizer.Glop
         /// Create an instance of the object
         /// </summary>
         /// <param name="updateEventHandler">A method to call to handle an update event.</param>
-        public Engine(Action<ProcessUpdateEventArgs> updateEventHandler)
+        public Engine(Action<ProcessUpdateEventArgs> updateEventHandler, bool disableTrace = false)
         {
             _updateEventHandler = updateEventHandler;
+            _disableTrace = disableTrace;
         }
 
         public IEnumerable<Assignment> Process(IEnumerable<Session> sessions, IEnumerable<Room> rooms, IEnumerable<Timeslot> timeslots)
@@ -38,12 +40,12 @@ namespace ConferenceScheduler.Optimizer.Glop
 
             var model = (null as Solver).CreateMixedIntegerProgrammingSolver();
 
-            var v = model.CreateAssignmentVariables(sessions.Count(), rooms.Count(), timeslots.Count());
-            var r = model.CreateRoomVariables(sessions.Count(), rooms.Count());
+            var v = model.CreateAssignmentVariables(sessions.Count(), rooms.Count(), timeslots.Count(), _disableTrace);
+            var r = model.CreateRoomVariables(sessions.Count(), rooms.Count(), _disableTrace);
 
             var timeslotIds = timeslots.GetIdCollection();
-            model.CreateConstraints(v, r, sessions, rooms, timeslotIds);
-            model.CreateObjective(v, sessions, rooms, timeslotIds);
+            model.CreateConstraints(v, r, sessions, rooms, timeslotIds, _disableTrace);
+            model.CreateObjective(v, sessions, rooms, timeslotIds, _disableTrace);
 
             int status = model.Solve();
             if (status != Solver.OPTIMAL)

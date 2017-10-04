@@ -11,7 +11,7 @@
     <PackageLicenseUrl>https://github.com/bsstahl/ConferenceScheduler/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/bsstahl/ConferenceScheduler</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
