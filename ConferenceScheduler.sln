@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optimizer.Test", "Optimizer.Test\Optimizer.Test.csproj", "{5B417301-9550-4A14-8772-8A7012D74EF9}"
 EndProject
@@ -15,9 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optimizer.DataSetsTest", "Optimizer.DataSetsTest\Optimizer.DataSetsTest.csproj", "{B85F5433-AC7C-4688-B819-C1E847CA1E14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler", "ConferenceScheduler\ConferenceScheduler.csproj", "{6B73BAC4-25FA-4423-9EFC-AD13DDF0F351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceScheduler", "ConferenceScheduler\ConferenceScheduler.csproj", "{6B73BAC4-25FA-4423-9EFC-AD13DDF0F351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optimizer.Glop", "Optimizer.Glop\Optimizer.Glop.csproj", "{891BD01D-7575-4D71-8FC3-9CF6EB405CC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optimizer.Glop", "Optimizer.Glop\Optimizer.Glop.csproj", "{891BD01D-7575-4D71-8FC3-9CF6EB405CC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler.Fluent", "ConferenceScheduler.Fluent\ConferenceScheduler.Fluent.csproj", "{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler.Fluent.Test", "ConferenceScheduler.Fluent.Test\ConferenceScheduler.Fluent.Test.csproj", "{443E67C3-5AC9-4A68-A213-5167C30FAEE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,22 @@ Global
 		{891BD01D-7575-4D71-8FC3-9CF6EB405CC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{891BD01D-7575-4D71-8FC3-9CF6EB405CC5}.Release|x64.ActiveCfg = Release|Any CPU
 		{891BD01D-7575-4D71-8FC3-9CF6EB405CC5}.Release|x64.Build.0 = Release|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Debug|x64.Build.0 = Debug|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Release|x64.ActiveCfg = Release|Any CPU
+		{1E4A22FC-92D8-4B82-9FD3-3B88E555372A}.Release|x64.Build.0 = Release|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Debug|x64.Build.0 = Debug|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Release|x64.ActiveCfg = Release|Any CPU
+		{443E67C3-5AC9-4A68-A213-5167C30FAEE1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

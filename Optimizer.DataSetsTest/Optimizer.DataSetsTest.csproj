@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="EventHandler.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="SoCalCodeCampSanDiego2017Fluent.cs" />
     <Compile Include="SoCalCodeCampSanDiego2017.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +81,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConferenceScheduler.Fluent\ConferenceScheduler.Fluent.csproj">
+      <Project>{1e4a22fc-92d8-4b82-9fd3-3b88e555372a}</Project>
+      <Name>ConferenceScheduler.Fluent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConferenceScheduler\ConferenceScheduler.csproj">
       <Project>{6B73BAC4-25FA-4423-9EFC-AD13DDF0F351}</Project>
       <Name>ConferenceScheduler</Name>

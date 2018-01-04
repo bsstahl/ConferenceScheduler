@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Description>A schedule optimizer for a small conference such as a code camp.</Description>
     <PackageId>ConferenceScheduleOptimizer</PackageId>
     <Authors>Barry S. Stahl</Authors>
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.OrTools" Version="6.4.4495" />
+    <PackageReference Include="Google.OrTools" Version="6.5.4527" />
   </ItemGroup>
 
   <ItemGroup>
