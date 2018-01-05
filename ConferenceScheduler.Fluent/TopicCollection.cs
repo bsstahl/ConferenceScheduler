@@ -15,5 +15,9 @@ namespace ConferenceScheduler
             // set => throw new NotImplementedException();
         }
 
+        public bool ContainsName(string name)
+        {
+            return this.Select(t => t.Name.ToLower().RemoveWhitespace()).Contains(name.ToLower().RemoveWhitespace());
+        }
     }
 }

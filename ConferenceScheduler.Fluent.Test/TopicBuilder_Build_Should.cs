@@ -93,13 +93,42 @@ namespace ConferenceScheduler.Fluent.Test
         [Fact]
         public void ReturnOnlyOneTopicForNamesDifferingByOnlyCase()
         {
-            throw new NotImplementedException();
+            string topicName = "MyTopicName";
+
+            var expected = new List<string>();
+            expected.Add(topicName);
+            expected.Add(topicName.ToLower());
+
+            var actual = new TopicBuilder().Add(expected.ToArray()).Build();
+            Assert.Single(actual);
         }
 
         [Fact]
-        public void ReturnOnlyOneTopicForNamesDifferingByOnlyWhitespace()
+        public void ReturnOnlyOneTopicForNamesDifferingByOnlyWhitespace_WithSpaceIsFirst()
         {
-            throw new NotImplementedException();
+            string topicNameWithSpace = "My Topic Name";
+            string topicNameNoSpace = "MyTopicName";
+
+            var expected = new List<string>();
+            expected.Add(topicNameWithSpace);
+            expected.Add(topicNameNoSpace);
+
+            var actual = new TopicBuilder().Add(expected.ToArray()).Build();
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public void ReturnOnlyOneTopicForNamesDifferingByOnlyWhitespace_WithoutSpaceIsFirst()
+        {
+            string topicNameWithSpace = "My Topic Name";
+            string topicNameNoSpace = "MyTopicName";
+
+            var expected = new List<string>();
+            expected.Add(topicNameNoSpace);
+            expected.Add(topicNameWithSpace);
+
+            var actual = new TopicBuilder().Add(expected.ToArray()).Build();
+            Assert.Single(actual);
         }
     }
 }

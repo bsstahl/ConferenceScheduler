@@ -12,12 +12,14 @@ namespace ConferenceScheduler
         public TopicCollection Build()
         {
             var result = new TopicCollection();
+            int topicId = 0;
             foreach (var topicName in _topicNames.Distinct())
-                result.Add(new Topic()
-                {
-                    Id = 0,
-                    Name = topicName
-                });
+                if (!result.ContainsName(topicName))
+                    result.Add(new Topic()
+                    {
+                        Id = ++topicId,
+                        Name = topicName
+                    });
             return result;
         }
 
