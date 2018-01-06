@@ -10,8 +10,14 @@ namespace ConferenceScheduler
     {
         public int? this[string name]
         {
-            get =>
-                this.FirstOrDefault(t => t.Name.ToLower() == name.ToLower())?.Id;
+            get
+            {
+                string lName = name.ToLower();
+                if (!this.Any(t => t.Name.ToLower() == lName))
+                    throw new Exceptions.ItemNotFoundException(this.GetType(), $"Unable to find topic '{name}'");
+                return this.Single(t => t.Name.ToLower() == lName).Id;
+            }
+
             // set => throw new NotImplementedException();
         }
 

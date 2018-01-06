@@ -77,7 +77,7 @@ namespace Optimizer.DataSetsTest
 
 
             // Sessions
-            var session01 = sessions.Add(1, topics["SoftSkills.Id"], presenterRichClingman);
+            var session01 = sessions.Add(1, topics["SoftSkills"], presenterRichClingman);
             var session02 = sessions.Add(2, topics["IOT"], presenterRichClingman);
 
             var session03 = sessions.Add(3, topics["Python"], presenterTreyHunner);
