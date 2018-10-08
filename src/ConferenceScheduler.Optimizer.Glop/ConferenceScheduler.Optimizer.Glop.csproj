@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.OrTools" Version="6.9.5839" />
+    <ProjectReference Include="..\ConferenceScheduler\ConferenceScheduler.csproj" />
+  </ItemGroup>
+
+</Project>

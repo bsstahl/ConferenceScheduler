@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +9,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldRespectDependenciesBy
     {
-        [Test]
+        [Fact]
         public void ReturningTheOnlyPossibleAssignmentIfTheFirstSessionIsDependentOnTheSecond()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -32,10 +31,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             var session1Assignment = assignments.Where(a => a.SessionId.Value == 1).Single();
             assignments.WriteSchedule();
-            Assert.That(session1Assignment.TimeslotId, Is.EqualTo(2), "Session 1 must be assigned to timeslot 2 to satisfy the dependencies.");
+
+            // Session 1 must be assigned to timeslot 2 to satisfy the dependencies
+            Assert.Equal(2, session1Assignment.TimeslotId); 
         }
 
-        [Test]
+        [Fact]
         public void ReturningTheOnlyPossibleAssignmentIfTheSecondSessionIsDependentOnTheFirst()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -55,10 +56,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             var session2Assignment = assignments.Where(a => a.SessionId.Value == 2).Single();
             assignments.WriteSchedule();
-            Assert.That(session2Assignment.TimeslotId, Is.EqualTo(2), "Session 2 must be assigned to timeslot 2 to satisfy the dependencies.");
+
+            // Session 2 must be assigned to timeslot 2 to satisfy the dependencies
+            Assert.Equal(2, session2Assignment.TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void FindingTheOnlyValidTimeslotForASessionWithChainedDependencies()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -87,10 +90,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             assignments.WriteSchedule();
             var testAssignment = assignments.Single(a => a.SessionId == 4);
-            Assert.That(testAssignment.TimeslotId, Is.EqualTo(3), "Session 4 must be in the 3rd timeslot");
+
+            // Session 4 must be in the 3rd timeslot
+            Assert.Equal(3, testAssignment.TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void FindingTheOnlyValidTimeslotForASessionWithMultipleDependencies()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -121,10 +126,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             assignments.WriteSchedule();
             var testAssignment = assignments.Single(a => a.SessionId == 4);
-            Assert.That(testAssignment.TimeslotId, Is.EqualTo(3), "Session 4 must be in the 3rd timeslot");
+
+            // Session 4 must be in the 3rd timeslot
+            Assert.Equal(3, testAssignment.TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void FindingTheOnlyValidTimeslotForASessionWithMoreDependenciesThenRooms()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -155,10 +162,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             assignments.WriteSchedule();
             var testAssignment = assignments.Single(a => a.SessionId == 4);
-            Assert.That(testAssignment.TimeslotId, Is.EqualTo(3), "Session 4 must be in the 3rd timeslot");
+
+            // Session 4 must be in the 3rd timeslot
+            Assert.Equal(3, testAssignment.TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void AssigningAllDependenciesOfASessionPriorToThatSession()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -193,7 +202,7 @@ namespace ConferenceScheduler.Optimizer.Test
             var dependentSessionIds = new List<int>() { 1, 2, 5, 6 };
             var maxTimeslotId = assignments.Where(a => dependentSessionIds.Contains(a.SessionId.Value)).Max(a => a.TimeslotId);
 
-            Assert.That(maxTimeslotId, Is.LessThan(targetTimeslotId), "All dependent sessions must assigned earlier than the dependency session.");
+            Assert.True(maxTimeslotId < targetTimeslotId, "All dependent sessions must assigned earlier than the dependency session");
         }
 
     }

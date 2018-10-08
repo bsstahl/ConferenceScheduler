@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldRespectPresentersAvailabilityBy
     {
-        [Test]
+        [Fact]
         public void ThrowingNoFeasibleSolutionIfSpeakerIsUnavailableForAllTimeslots()
         {
             var sessions = new SessionsCollection();
@@ -30,7 +29,7 @@ namespace ConferenceScheduler.Optimizer.Test
             Assert.Throws<Exceptions.NoFeasibleSolutionsException>(() => engine.Process(sessions, rooms, timeslots));
         }
 
-        [Test]
+        [Fact]
         public void ReturningTheCorrectAssignmentIfOneSpeakerIsAvailableForOnlyOneSlot()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -50,10 +49,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var checkAssignment = assignments.Where(a => a.SessionId == 2).Single();
 
             assignments.WriteSchedule();
-            Assert.That(checkAssignment.TimeslotId, Is.EqualTo(1), "Session 2 should have been assigned to slot 1.");
+
+            // Session 2 should have been assigned to slot 1
+            Assert.Equal(1, checkAssignment.TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void ReturningTheCorrectAssignmentIfTwoSpeakersAreAvailableForTwoOfTheThreeSlots()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -77,10 +78,10 @@ namespace ConferenceScheduler.Optimizer.Test
             //assignments.WriteSchedule();
             //Assert.That(checkAssignment.TimeslotId, Is.EqualTo(2), "Session 3 should have been assigned to slot 2.");
 
-            Assert.Inconclusive("Fix this test");
+            Assert.False(true, "Fix this test");
         }
 
-        [Test]
+        [Fact]
         public void ThrowingNoFeasibleSolutionIfSpeakerWouldHaveToBeInTwoPlacesAtOnceDueTo2Sessions1Speaker1Timeslot()
         {
             var sessions = new SessionsCollection();
@@ -99,7 +100,7 @@ namespace ConferenceScheduler.Optimizer.Test
             Assert.Throws<Exceptions.NoFeasibleSolutionsException>(() => engine.Process(sessions, rooms, timeslots));
         }
 
-        [Test]
+        [Fact]
         public void ThrowingNoFeasibleSolutionIfSpeakerWouldHaveToBeInTwoPlacesAtOnce3SessionsFor1SpeakerWith2Timeslots()
         {
             var speaker1 = Presenter.Create(1);

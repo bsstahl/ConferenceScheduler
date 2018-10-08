@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldOptimizeBy
     {
-        [Test]
+        [Fact]
         public void ReturningTheOnlyPossibleAssignmentIfOneSessionRoomAndSlotAreSupplied()
         {
             var sessions = new SessionsCollection();
@@ -29,10 +28,10 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var assignments = engine.Process(sessions, rooms, timeslots);
             assignments.WriteSchedule();
-            Assert.That(assignments.Count(), Is.EqualTo(1), "The wrong number of assignments were returned.");
+            Assert.Single(assignments);
         }
 
-        [Test]
+        [Fact]
         public void AssigningAllSessions()
         {
             var sessions = new SessionsCollection();
@@ -61,10 +60,10 @@ namespace ConferenceScheduler.Optimizer.Test
             var assignments = engine.Process(sessions, rooms, timeslots);
             var assignmentsWithSessions = assignments.Where(a => a.SessionId.HasValue);
             assignments.WriteSchedule();
-            Assert.That(assignmentsWithSessions.Count(), Is.EqualTo(sessions.Count()), "The wrong number of assignments were returned.");
+            Assert.Equal(assignmentsWithSessions.Count(), sessions.Count());
         }
 
-        [Test]
+        [Fact]
         public void SeparatingSessionsInTheSameTrackIntoDifferentTimeslots_4Sessions3Tracks()
         {
             var sessions = new SessionsCollection();
@@ -88,10 +87,12 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var s1TimeslotId = assignments.Where(a => a.SessionId == 1).Single().TimeslotId;
             var s3TimeslotId = assignments.Where(a => a.SessionId == 3).Single().TimeslotId;
-            Assert.That(s1TimeslotId, Is.Not.EqualTo(s3TimeslotId), "Sessions with the same TopicId should not be in the same timeslot.");
+
+            // Sessions with the same TopicId should not be in the same timeslot
+            Assert.NotEqual(s1TimeslotId, s3TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void SeparatingSessionsInTheSameTrackIntoDifferentTimslots_4Sessions1Track()
         {
             var sessions = new SessionsCollection();
@@ -115,10 +116,12 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var s2TimeslotId = assignments.Where(a => a.SessionId == 2).Single().TimeslotId;
             var s4TimeslotId = assignments.Where(a => a.SessionId == 4).Single().TimeslotId;
-            Assert.That(s2TimeslotId, Is.Not.EqualTo(s4TimeslotId), "Sessions with the same TopicId should not be in the same timeslot.");
+
+            // Sessions with the same TopicId should not be in the same timeslot
+            Assert.NotEqual(s2TimeslotId, s4TimeslotId); 
         }
 
-        [Test]
+        [Fact]
         public void SeparatingSessionsInTheSameTrackIntoDifferentTimslots_6Sessions3Tracks()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -151,7 +154,7 @@ namespace ConferenceScheduler.Optimizer.Test
             Assert.True(slotsAreDifferent, "Sessions with the same TopicId should not be in the same timeslot.");
         }
 
-        [Test]
+        [Fact]
         public void AssigningAllSessionsToDifferentTimslotRoomCombinations()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -184,7 +187,7 @@ namespace ConferenceScheduler.Optimizer.Test
             Assert.False(hasDuplicate, "No 2 sessions should be in the same room-timeslot combination.");
         }
 
-        [Test]
+        [Fact]
         public void DistributingSessionsReasonablyAcrossTimeslotsWithNoDependencies()
         {
             var engine = (null as IConferenceOptimizer).Create();

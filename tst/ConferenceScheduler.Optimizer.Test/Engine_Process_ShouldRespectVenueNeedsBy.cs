@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldRespectVenueNeedsBy
     {
-        [Test]
+        [Fact]
         public void NotAssigningASessionToARoomWhenItIsNotAvailableInTimesdlot1()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -39,10 +38,11 @@ namespace ConferenceScheduler.Optimizer.Test
             if (checkAssignment == null)
                 Assert.Null(checkAssignment);
             else
-                Assert.Null(checkAssignment.SessionId, "No session should have been assigned to room 2 during timeslot 1.");
+                // No session should have been assigned to room 2 during timeslot 1
+                Assert.Null(checkAssignment.SessionId);
         }
 
-        [Test]
+        [Fact]
         public void NotAssigningASessionToARoomWhenItIsNotAvailableInTimesdlot2()
         {
             var engine = (null as IConferenceOptimizer).Create();
@@ -68,7 +68,8 @@ namespace ConferenceScheduler.Optimizer.Test
             if (checkAssignment == null)
                 Assert.Null(checkAssignment);
             else
-                Assert.Null(checkAssignment.SessionId, "No session should have been assigned to room 2 during timeslot 2.");
+                // No session should have been assigned to room 2 during timeslot 2
+                Assert.Null(checkAssignment.SessionId);
         }
 
     }

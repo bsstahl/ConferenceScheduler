@@ -1,11 +1,11 @@
-﻿using ConferenceScheduler.Entities;
+﻿using Xunit;
+using ConferenceScheduler.Entities;
 using ConferenceScheduler.Interfaces;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Optimizer.DataSetsTest
+namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
     public enum Topic
     {
@@ -26,10 +26,9 @@ namespace Optimizer.DataSetsTest
         IOTLab = 15
     }
 
-    [TestFixture]
     public class SoCalCodeCampSanDiego2017
     {
-        [Test]
+        [Fact]
         public void ScheduleWithoutPreferences()
         {
             var engine = (null as IConferenceOptimizer).Create();

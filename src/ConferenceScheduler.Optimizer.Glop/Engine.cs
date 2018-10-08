@@ -12,8 +12,8 @@ namespace ConferenceScheduler.Optimizer.Glop
 {
     public class Engine : ConferenceScheduler.Interfaces.IConferenceOptimizer
     {
-        bool _disableTrace;
-        Action<ProcessUpdateEventArgs> _updateEventHandler;
+        readonly bool _disableTrace;
+        readonly Action<ProcessUpdateEventArgs> _updateEventHandler;
 
         // v holds a boolean indicator for each room/timeslot/session combination.
         // r holds the room number of the session

@@ -5,7 +5,7 @@ using System.Text;
 using ConferenceScheduler.Interfaces;
 using ConferenceScheduler.Entities;
 
-namespace Optimizer.DataSetsTest
+namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
     public static class ExtensionMethods
     {
@@ -23,7 +23,7 @@ namespace Optimizer.DataSetsTest
 
         public static void WriteSchedule(this IEnumerable<Assignment> assignments)
         {
-
+            // TODO: Implement
         }
 
         public static void WriteSchedule(this IEnumerable<Assignment> assignments, IEnumerable<Session> sessions, IDictionary<int, string> names)

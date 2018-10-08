@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Optimizer.DataSetsTest
+namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
     public class EventHandler
     {

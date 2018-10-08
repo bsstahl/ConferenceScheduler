@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldOrganizeByTrack
     {
-        [Test]
+        [Fact]
         public void PuttingSessionsInTheSameTrackIntoTheSameRoom_4Sessions1Track()
         {
             var sessions = new SessionsCollection();
@@ -37,10 +36,12 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var s1RoomId = assignments.Where(a => a.SessionId == 1).Single().RoomId;
             var s3RoomId = assignments.Where(a => a.SessionId == 3).Single().RoomId;
-            Assert.That(s1RoomId, Is.EqualTo(s3RoomId), "Sessions with the same TopicId should be in the same room whenever possible.");
+
+            // Sessions with the same TopicId should be in the same room whenever possible
+            Assert.Equal(s1RoomId, s3RoomId); 
         }
 
-        [Test]
+        [Fact]
         public void PuttingSessionsInTheSameTrackIntoTheSameRoom_5Sessions2Tracks()
         {
             var sessions = new SessionsCollection();
@@ -71,12 +72,13 @@ namespace ConferenceScheduler.Optimizer.Test
             var s2RoomId = assignments.Where(a => a.SessionId == 2).Single().RoomId;
             var s5RoomId = assignments.Where(a => a.SessionId == 5).Single().RoomId;
 
-            Assert.That(s1RoomId, Is.EqualTo(s3RoomId), "Sessions with the same TopicId should be in the same room whenever possible (S1 & S3).");
-            Assert.That(s1RoomId, Is.EqualTo(s4RoomId), "Sessions with the same TopicId should be in the same room whenever possible (S1 & S4).");
-            Assert.That(s2RoomId, Is.EqualTo(s5RoomId), "Sessions with the same TopicId should be in the same room whenever possible (S2 & S5).");
+            // Sessions with the same TopicId should be in the same room whenever possible
+            Assert.Equal(s1RoomId, s3RoomId); 
+            Assert.Equal(s1RoomId, s4RoomId);
+            Assert.Equal(s2RoomId, s5RoomId);
         }
 
-        //[Test]
+        //[Fact]
         //public void SeparatingSessionsInTheSameTrackIntoDifferentTimslots_4Sessions1Track()
         //{
         //    var sessions = new SessionsCollection();
@@ -103,7 +105,7 @@ namespace ConferenceScheduler.Optimizer.Test
         //    Assert.That(s2TimeslotId, Is.Not.EqualTo(s4TimeslotId), "Sessions with the same TopicId should not be in the same timeslot.");
         //}
 
-        //[Test]
+        //[Fact]
         //public void SeparatingSessionsInTheSameTrackIntoDifferentTimslots_6Sessions3Tracks()
         //{
         //    var engine = (null as IConferenceOptimizer).Create();
@@ -136,7 +138,7 @@ namespace ConferenceScheduler.Optimizer.Test
         //    Assert.True(slotsAreDifferent, "Sessions with the same TopicId should not be in the same timeslot.");
         //}
 
-        //[Test]
+        //[Fact]
         //public void AssigningAllSessionsToDifferentTimslotRoomCombinations()
         //{
         //    var engine = (null as IConferenceOptimizer).Create();

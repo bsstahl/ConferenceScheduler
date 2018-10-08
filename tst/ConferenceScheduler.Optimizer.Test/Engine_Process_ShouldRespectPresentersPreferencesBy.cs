@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,9 @@ using ConferenceScheduler.Interfaces;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
-    [TestFixture]
     public class Engine_Process_ShouldRespectPresentersPreferencesBy
     {
-        [Test]
+        [Fact]
         public void SchedulingThePresenterInAPreferredTimeslotIfPossible_1Presenter3Slots1Presentation()
         {
             int expectedTimeslot = 2;
@@ -34,10 +33,10 @@ namespace ConferenceScheduler.Optimizer.Test
             var engine = (null as IConferenceOptimizer).Create();
             var assignments = engine.Process(sessions, rooms, timeslots);
 
-            Assert.AreEqual(expectedTimeslot, assignments.Single().TimeslotId);
+            Assert.Equal(expectedTimeslot, assignments.Single().TimeslotId);
         }
 
-        [Test]
+        [Fact]
         public void SchedulingThePresenterInAPreferredTimeslotIfPossible_2Presenter2Slots2Presentation()
         {
             int expectedTimeslot1 = 2;
@@ -62,12 +61,12 @@ namespace ConferenceScheduler.Optimizer.Test
             var engine = (null as IConferenceOptimizer).Create();
             var assignments = engine.Process(sessions, rooms, timeslots);
 
-            Assert.AreEqual(expectedTimeslot2, assignments.Single(a => a.SessionId == 2).TimeslotId);
-            Assert.AreEqual(expectedTimeslot1, assignments.Single(a => a.SessionId == 1).TimeslotId);
+            Assert.Equal(expectedTimeslot2, assignments.Single(a => a.SessionId == 2).TimeslotId);
+            Assert.Equal(expectedTimeslot1, assignments.Single(a => a.SessionId == 1).TimeslotId);
         }
 
 
-        [Test]
+        [Fact]
         public void SchedulingThePresenterInAPreferredTimeslotIfPossible_3Presenter3Slots3Presentation_2SpeakersPreferTheSameSlot()
         {
             int expectedTimeslot1 = 2;
@@ -98,7 +97,7 @@ namespace ConferenceScheduler.Optimizer.Test
             var engine = (null as IConferenceOptimizer).Create();
             var assignments = engine.Process(sessions, rooms, timeslots);
 
-            Assert.AreEqual(expectedTimeslot2, assignments.Single(a => a.SessionId == 2).TimeslotId);
+            Assert.Equal(expectedTimeslot2, assignments.Single(a => a.SessionId == 2).TimeslotId);
         }
 
 
