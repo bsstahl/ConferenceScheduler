@@ -17,11 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CBA1F6FA-643
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceScheduler", "src\ConferenceScheduler\ConferenceScheduler.csproj", "{5C2B85EB-D6C7-428D-9B42-E0FB9F7AEF8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler.Optimizer.Glop", "src\ConferenceScheduler.Optimizer.Glop\ConferenceScheduler.Optimizer.Glop.csproj", "{1CB16DFD-20B0-4387-B5DB-B50AB9281D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceScheduler.Optimizer.Glop", "src\ConferenceScheduler.Optimizer.Glop\ConferenceScheduler.Optimizer.Glop.csproj", "{1CB16DFD-20B0-4387-B5DB-B50AB9281D8F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceScheduler.Optimizer.Test", "tst\ConferenceScheduler.Optimizer.Test\ConferenceScheduler.Optimizer.Test.csproj", "{4E652B10-346E-46A6-B930-AAE07034E6DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceScheduler.Optimizer.DataSetsTest", "tst\ConferenceScheduler.Optimizer.DataSetsTest\ConferenceScheduler.Optimizer.DataSetsTest.csproj", "{36067B89-6BCE-4357-938F-1ABCBE8EF730}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler.Builders", "src\ConferenceScheduler.Builders\ConferenceScheduler.Builders.csproj", "{2A687473-FC4A-448B-BCF2-1F14483E4CA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceScheduler.Builders.Test", "tst\ConferenceScheduler.Builders.Test\ConferenceScheduler.Builders.Test.csproj", "{355FD078-5749-42D9-A231-9CDA929FC7A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,22 @@ Global
 		{36067B89-6BCE-4357-938F-1ABCBE8EF730}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36067B89-6BCE-4357-938F-1ABCBE8EF730}.Release|x64.ActiveCfg = Release|Any CPU
 		{36067B89-6BCE-4357-938F-1ABCBE8EF730}.Release|x64.Build.0 = Release|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6}.Release|x64.Build.0 = Release|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{355FD078-5749-42D9-A231-9CDA929FC7A2}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +92,8 @@ Global
 		{1CB16DFD-20B0-4387-B5DB-B50AB9281D8F} = {CBA1F6FA-643F-4B01-99D9-3B8231EC7602}
 		{4E652B10-346E-46A6-B930-AAE07034E6DC} = {01AACD0A-BFE2-4216-8935-1E0B65D01604}
 		{36067B89-6BCE-4357-938F-1ABCBE8EF730} = {01AACD0A-BFE2-4216-8935-1E0B65D01604}
+		{2A687473-FC4A-448B-BCF2-1F14483E4CA6} = {CBA1F6FA-643F-4B01-99D9-3B8231EC7602}
+		{355FD078-5749-42D9-A231-9CDA929FC7A2} = {01AACD0A-BFE2-4216-8935-1E0B65D01604}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {738BAB79-9598-4290-BA4B-66D684DDDED8}
