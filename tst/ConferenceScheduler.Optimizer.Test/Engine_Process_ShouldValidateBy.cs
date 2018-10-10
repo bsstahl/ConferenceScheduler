@@ -360,7 +360,7 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var session1 = sessions.Add(1, 1, presenter1);
             var session2 = sessions.Add(2, 1, presenter2);
-            var session3 = sessions.Add(3, 1, presenter3);
+            var session3 = sessions.Add(3, 1, presenter2);
 
             var session4 = sessions.Add(4, 2, presenter1);
             var session5 = sessions.Add(5, 2, presenter2);
@@ -384,9 +384,7 @@ namespace ConferenceScheduler.Optimizer.Test
             timeslots.Add(Timeslot.Create(6));
 
             var engine = (null as IConferenceOptimizer).Create();
-            // var result = engine.Process(sessions, rooms, timeslots);
-
-            Assert.False(true, "Fix this test");
+            var result = engine.Process(sessions, rooms, timeslots);
         }
 
     }

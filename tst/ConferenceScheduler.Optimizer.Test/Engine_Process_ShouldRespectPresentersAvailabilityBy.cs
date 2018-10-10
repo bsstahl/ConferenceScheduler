@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ConferenceScheduler.Optimizer;
 using ConferenceScheduler.Entities;
 using ConferenceScheduler.Interfaces;
+using TestHelperExtensions;
 
 namespace ConferenceScheduler.Optimizer.Test
 {
@@ -74,14 +75,39 @@ namespace ConferenceScheduler.Optimizer.Test
             timeslots.Add(Timeslot.Create(2));
             timeslots.Add(Timeslot.Create(3));
 
-            //var assignments = engine.Process(sessions, rooms, timeslots);
-            //var checkAssignment = assignments.Where(a => a.SessionId == 3).Single();
+            var assignments = engine.Process(sessions, rooms, timeslots);
+            var checkAssignment = assignments.Where(a => a.SessionId == 3).Single();
 
-            //assignments.WriteSchedule();
+            assignments.WriteSchedule();
+
             // Session 3 should have been assigned to slot 2
-            // Assert.Equal(2, checkAssignment.TimeslotId);
+            Assert.Equal(2, checkAssignment.TimeslotId);
+        }
 
-            Assert.False(true, "Fix this test");
+        [Fact]
+        public void NotFailIfTwoUnnamedSessionsHaveTheSameTimeslotUnavailability()
+        {
+            // This test exposes a bug that existed in a version
+            // of the tool in early Oct 2018 where failing to add
+            // a name caused a collision in naming constraints
+            // if the same Timeslot is unavailable for multiple sessions
+            var engine = (null as IConferenceOptimizer).Create();
+
+            var sessions = new SessionsCollection();
+            sessions.Add(1, null, Presenter.Create(1, new int[] { 2 }));
+            sessions.Add(2, null, Presenter.Create(2, new int[] { 2 }));
+
+            var rooms = new List<Room>();
+            rooms.Add(Room.Create(1, 10));
+
+            var timeslots = new List<Timeslot>();
+            timeslots.Add(Timeslot.Create(1));
+            timeslots.Add(Timeslot.Create(2));
+            timeslots.Add(Timeslot.Create(3));
+
+            var assignments = engine.Process(sessions, rooms, timeslots);
+
+            assignments.WriteSchedule();
         }
 
         [Fact]

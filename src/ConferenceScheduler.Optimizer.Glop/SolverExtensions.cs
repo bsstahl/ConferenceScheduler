@@ -123,12 +123,12 @@ namespace ConferenceScheduler.Optimizer.Glop
 
                 if (unavailableTimeslotIndexes.Any())
                 {
-                    Constraint expr = model.MakeConstraint(0.0, 0.0, $"PresentersUnavailableForTimeslot_{session.Name}");
+                    Constraint expr = model.MakeConstraint(0.0, 0.0, $"PresentersUnavailableForTimeslot_{session.Id}_{session.Name}");
                     foreach (var utsi in unavailableTimeslotIndexes.Distinct())
                         for (int rm = 0; rm < roomCount; rm++)
                             expr.SetCoefficient(v[sessionIndex, rm, utsi], 1.0);
                     if (!disableTrace)
-                        Console.WriteLine($"PresentersUnavailableForTimeslot_{session.Name}");
+                        Console.WriteLine($"PresentersUnavailableForTimeslot_{session.Id}_{session.Name}");
                 }
             }
         }
@@ -325,7 +325,10 @@ namespace ConferenceScheduler.Optimizer.Glop
             model.CreateOneSessionPerRoomTimeslotConstraint(v, sessionCount, roomCount, timeslotCount, disableTrace);
             model.CreateAssignEverySessionOnceConstraint(v, sessionCount, roomCount, timeslotCount, disableTrace);
             model.CreateRoomUnavailableConstraint(v, rooms, roomIds, timeslotIds, sessionCount, disableTrace);
+
+            // These constraints seems to be causing problems
             model.CreatePresenterUnavailableConstraint(v, sessions, sessionIds, timeslotIds, roomCount, disableTrace);
+
             model.CreatePresenterCanOnlyPresentOneSessionAtATimeConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
             model.CreateLimitOnTopicIdsInASingleTimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
             model.CreateLimitOnSessionsInATimeslotConstraint(v, sessions, sessionIds, roomCount, timeslotCount, disableTrace);
