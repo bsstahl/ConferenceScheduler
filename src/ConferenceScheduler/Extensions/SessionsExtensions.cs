@@ -37,6 +37,12 @@ namespace ConferenceScheduler.Extensions
             if (presentations.HaveCircularDependencies())
                 throw new DependencyException("Sessions may not have circular dependencies.");
 
+            VerifyPresenterAvailabilities(sessions);
+
+        }
+
+        private static void VerifyPresenterAvailabilities(IEnumerable<Session> sessions)
+        {
             var presenters = sessions.SelectMany(s => s.Presenters);
             var presenterIds = presenters.Select(p => p.Id).Distinct();
 

@@ -36,7 +36,8 @@ namespace ConferenceScheduler.Optimizer.Test
 
             var sessions = new SessionsCollection();
             sessions.Add(1, null, Presenter.Create(1));
-            sessions.Add(2, null, Presenter.Create(2, new int[] { 2 })); // Only available for slot 1
+            sessions.Add(2, null, Presenter.Create(2, new int[] { 2, 3 })); // Only available for slot 1
+            sessions.Add(3, null, Presenter.Create(3));
 
             var rooms = new List<Room>();
             rooms.Add(Room.Create(1, 10));
@@ -44,6 +45,7 @@ namespace ConferenceScheduler.Optimizer.Test
             var timeslots = new List<Timeslot>();
             timeslots.Add(Timeslot.Create(1));
             timeslots.Add(Timeslot.Create(2));
+            timeslots.Add(Timeslot.Create(3));
 
             var assignments = engine.Process(sessions, rooms, timeslots);
             var checkAssignment = assignments.Where(a => a.SessionId == 2).Single();
@@ -76,7 +78,8 @@ namespace ConferenceScheduler.Optimizer.Test
             //var checkAssignment = assignments.Where(a => a.SessionId == 3).Single();
 
             //assignments.WriteSchedule();
-            //Assert.That(checkAssignment.TimeslotId, Is.EqualTo(2), "Session 3 should have been assigned to slot 2.");
+            // Session 3 should have been assigned to slot 2
+            // Assert.Equal(2, checkAssignment.TimeslotId);
 
             Assert.False(true, "Fix this test");
         }
