@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ConferenceScheduler.Interfaces;
 using ConferenceScheduler.Entities;
+using Xunit.Abstractions;
 
 namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
@@ -26,7 +27,22 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
             // TODO: Implement
         }
 
-        public static void WriteSchedule(this IEnumerable<Assignment> assignments, IEnumerable<Session> sessions, IDictionary<int, string> names)
+        public static void WriteRoomConfiguration(this ITestOutputHelper output, IEnumerable<Room> rooms)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Room configuration:");
+            foreach (var room in rooms)
+            {
+                sb.Append($"\tRoom {room.Id} with capacity {room.Capacity} is ");
+                if (room.UnavailableForTimeslots == null || !room.UnavailableForTimeslots.Any())
+                    sb.AppendLine("available in all Timeslots");
+                else
+                    sb.AppendLine($"not available in timeslot(s) {string.Join(',', room.UnavailableForTimeslots)}");
+            }
+            output.WriteLine(sb.ToString());
+        }
+
+        public static void WriteSchedule(this ITestOutputHelper output, IEnumerable<Assignment> assignments, IEnumerable<Session> sessions, IDictionary<int, string> names)
         {
             var timeslots = assignments.Select(a => a.TimeslotId).Distinct().OrderBy(a => a);
             var rooms = assignments.Select(a => a.RoomId).Distinct().OrderBy(a => a);
@@ -50,28 +66,26 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
                         throw new ArgumentException($"Multiple assignments to room {room} and timeslot {timeslot}.");
                     else
                     {
+                        string name;
+
                         var session = assignments.Where(a => a.RoomId == room && a.TimeslotId == timeslot).SingleOrDefault();
                         if (session == null)
-                            result.Append("\t".PadLeft(15, ' '));
+                            name = "(empty)".PadRight(15);
+                        else if (names == null)
+                            name = session.SessionId.ToString().PadRight(15);
                         else
                         {
-                            string name;
-                            if (names == null)
-                                name = session.SessionId.ToString().PadRight(15);
-                            else
-                            {
-                                var fullName = names.Single(n => n.Key == session.SessionId).Value;
-                                var currentSession = sessions?.Single(s => s.Id == session.SessionId);
-                                name = $"{fullName.Substring(0, Math.Min(fullName.Length, 10)).PadRight(10)} ({ (currentSession == null ? session.SessionId.Value : currentSession.TopicId)})";
-                            }
-                            result.Append($"{name}\t");
+                            var fullName = names.Single(n => n.Key == session.SessionId).Value;
+                            var currentSession = sessions?.Single(s => s.Id == session.SessionId);
+                            name = $"{fullName.Substring(0, Math.Min(fullName.Length, 10)).PadRight(10)} ({ (currentSession == null ? session.SessionId.Value : currentSession.TopicId)})";
                         }
+                        result.Append($"{name}\t");
                     }
                 }
                 result.AppendLine();
             }
 
-            Console.WriteLine(result.ToString());
+            output.WriteLine(result.ToString());
         }
 
 
