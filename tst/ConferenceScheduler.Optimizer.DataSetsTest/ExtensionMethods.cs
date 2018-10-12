@@ -22,9 +22,22 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
             return new ConferenceScheduler.Optimizer.Glop.Engine(eventHandlers.EngineUpdateEventHandler);
         }
 
-        public static void WriteSchedule(this IEnumerable<Assignment> assignments)
+        public static string ToTimeFormat(this Single time)
         {
-            // TODO: Implement
+            if ((time > 24.0) || (time < 0.0))
+                throw new ArgumentException("The time must be between 0.0 and 24.0", nameof(time));
+            var minutes = Convert.ToInt32(Math.Floor(time));
+            var seconds = Convert.ToInt32(Math.Round((time - minutes) * 60.0));
+            return $"{minutes:00}:{seconds:00}";
+        }
+
+        public static void WriteTimeslotConfiguration(this ITestOutputHelper output, IEnumerable<Timeslot> timeslots)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Timeslot configuration:");
+            foreach (var timeslot in timeslots)
+                sb.AppendLine($"\tSlot {timeslot.Id} starts at {timeslot.StartHour.ToTimeFormat()} on day {timeslot.DayIndex}");
+            output.WriteLine(sb.ToString());
         }
 
         public static void WriteRoomConfiguration(this ITestOutputHelper output, IEnumerable<Room> rooms)
@@ -86,6 +99,11 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
             }
 
             output.WriteLine(result.ToString());
+        }
+
+        public static void WriteSchedule(this IEnumerable<Assignment> assignments)
+        {
+            // TODO: Implement
         }
 
 

@@ -42,8 +42,6 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
         {
             var engine = (null as IConferenceOptimizer).Create();
             var sessions = new SessionsCollection();
-            var timeslots = new List<Timeslot>();
-
 
             // Presenters
             var presenterRichClingman = Presenter.Create(1, "Rich Clingman");
@@ -159,12 +157,14 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
 
 
             // Timeslots
-            timeslots.Add(Timeslot.Create(1, 8.75));
-            timeslots.Add(Timeslot.Create(2, 10));
-            timeslots.Add(Timeslot.Create(3, 11.25));
-            timeslots.Add(Timeslot.Create(4, 13.5));
-            timeslots.Add(Timeslot.Create(5, 14.75));
-            timeslots.Add(Timeslot.Create(6, 16));
+            var timeslots = new TimeslotCollectionBuilder()
+                .Add(new TimeslotBuilder(1).StartingAt(08.75))
+                .Add(new TimeslotBuilder(2).StartingAt(10.00))
+                .Add(new TimeslotBuilder(3).StartingAt(11.25))
+                .Add(new TimeslotBuilder(4).StartingAt(13.50))
+                .Add(new TimeslotBuilder(5).StartingAt(14.75))
+                .Add(new TimeslotBuilder(6).StartingAt(16.00))
+                .Build();
 
             var rooms = new RoomCollectionBuilder()
                 .Add(new RoomBuilder().Id(1).Capacity(10))
@@ -228,6 +228,7 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
 
             // Display the results
             _output.WriteRoomConfiguration(rooms);
+            _output.WriteTimeslotConfiguration(timeslots);
             _output.WriteLine("*********************************************");
             _output.WriteSchedule(assignments, sessions, sn);
 
