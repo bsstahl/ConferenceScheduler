@@ -47,6 +47,12 @@ namespace ConferenceScheduler.Builders
             return this;
         }
 
+        public new PresenterBuilder Name(string name)
+        {
+            base.Name = name;
+            return this;
+        }
+
         public PresenterBuilder AddTimeslotUnavailable(int timeslotId)
         {
             _unavailableForTimeslots.Add(timeslotId);

@@ -72,6 +72,24 @@ namespace ConferenceScheduler.Builders.Test
         }
 
         [Fact]
+        public void ReturnAnEmptyOrNullNameIfNoneIsSupplied()
+        {
+            var actualPresenter = new PresenterBuilder()
+                .Build(Int32.MaxValue.GetRandom());
+            Assert.True(string.IsNullOrEmpty(actualPresenter.Name));
+        }
+
+        [Fact]
+        public void ReturnTheSpecifiedNameIfOneIsSupplied()
+        {
+            var actual = string.Empty.GetRandom();
+            var actualPresenter = new PresenterBuilder()
+                .Name(actual)
+                .Build(Int32.MaxValue.GetRandom());
+            Assert.Equal(actual, actualPresenter.Name);
+        }
+
+        [Fact]
         public void ReturnATimeslotsUnavailableCollectionWithOneValueIfOneIsSupplied()
         {
             var expected = Int32.MaxValue.GetRandom();
