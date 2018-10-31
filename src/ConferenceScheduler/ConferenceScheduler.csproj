@@ -11,7 +11,7 @@
     <PackageLicenseUrl>https://github.com/bsstahl/ConferenceScheduler/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/bsstahl/ConferenceScheduler</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
