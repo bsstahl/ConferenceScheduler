@@ -10,6 +10,16 @@ namespace ConferenceScheduler.Builders
         bool _autoId = true;
         List<int> _unavailableForTimeslots = new List<int>();
 
+        public bool HasSpecifiedId()
+        {
+            return !base.Id.Equals(0);
+        }
+
+        public int GetSpecifiedId()
+        {
+            return base.Id;
+        }
+
         public Room Build()
         {
             if (_autoId)

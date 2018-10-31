@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ConferenceScheduler.Builders\ConferenceScheduler.Builders.csproj" />
     <ProjectReference Include="..\..\src\ConferenceScheduler.Optimizer.Glop\ConferenceScheduler.Optimizer.Glop.csproj" />
     <ProjectReference Include="..\..\src\ConferenceScheduler\ConferenceScheduler.csproj" />
   </ItemGroup>

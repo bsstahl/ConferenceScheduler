@@ -4,6 +4,8 @@ using ConferenceScheduler.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConferenceScheduler.Builders;
+using Xunit.Abstractions;
 
 namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
@@ -28,14 +30,18 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
 
     public class SoCalCodeCampSanDiego2017
     {
+        ITestOutputHelper _output;
+
+        public SoCalCodeCampSanDiego2017(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         [Fact]
         public void ScheduleWithoutPreferences()
         {
             var engine = (null as IConferenceOptimizer).Create();
             var sessions = new SessionsCollection();
-            var rooms = new List<Room>();
-            var timeslots = new List<Timeslot>();
-
 
             // Presenters
             var presenterRichClingman = Presenter.Create(1, "Rich Clingman");
@@ -151,24 +157,28 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
 
 
             // Timeslots
-            timeslots.Add(Timeslot.Create(1, 8.75));
-            timeslots.Add(Timeslot.Create(2, 10));
-            timeslots.Add(Timeslot.Create(3, 11.25));
-            timeslots.Add(Timeslot.Create(4, 13.5));
-            timeslots.Add(Timeslot.Create(5, 14.75));
-            timeslots.Add(Timeslot.Create(6, 16));
+            var timeslots = new TimeslotCollectionBuilder()
+                .Add(new TimeslotBuilder(1).StartingAt(08.75))
+                .Add(new TimeslotBuilder(2).StartingAt(10.00))
+                .Add(new TimeslotBuilder(3).StartingAt(11.25))
+                .Add(new TimeslotBuilder(4).StartingAt(13.50))
+                .Add(new TimeslotBuilder(5).StartingAt(14.75))
+                .Add(new TimeslotBuilder(6).StartingAt(16.00))
+                .Build();
 
-
-            // Rooms
-            rooms.Add(Room.Create(1, 10)); // Unex 127
-            rooms.Add(Room.Create(2, 10)); // Unex 126
-            rooms.Add(Room.Create(3, 10)); // Unex 110
-            rooms.Add(Room.Create(4, 10)); // Unex 107
-            rooms.Add(Room.Create(5, 10)); // Unex 106
-            rooms.Add(Room.Create(6, 10)); // Unex 104
-            rooms.Add(Room.Create(7, 10)); // Unex 101
-            rooms.Add(Room.Create(8, 10, new int[] { 1, 2, 3 })); // Unex 129 -- Only available in PM
-
+            var rooms = new RoomCollectionBuilder()
+                .Add(new RoomBuilder().Id(1).Capacity(10))
+                .Add(new RoomBuilder().Id(2).Capacity(10))
+                .Add(new RoomBuilder().Id(3).Capacity(10))
+                .Add(new RoomBuilder().Id(4).Capacity(10))
+                .Add(new RoomBuilder().Id(5).Capacity(10))
+                .Add(new RoomBuilder().Id(6).Capacity(10))
+                .Add(new RoomBuilder().Id(7).Capacity(10))
+                .Add(new RoomBuilder().Id(8).Capacity(10)
+                    .AddTimeslotUnavailable(1)
+                    .AddTimeslotUnavailable(2)
+                    .AddTimeslotUnavailable(3))
+                .Build();
 
             // Create the schedule
             var assignments = engine.Process(sessions, rooms, timeslots);
@@ -217,7 +227,10 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
             sn.Add(session40.Id, "IOT Lab 6");
 
             // Display the results
-            assignments.WriteSchedule(sessions, sn);
+            _output.WriteRoomConfiguration(rooms);
+            _output.WriteTimeslotConfiguration(timeslots);
+            _output.WriteLine("*********************************************");
+            _output.WriteSchedule(assignments, sessions, sn);
 
         }
     }
