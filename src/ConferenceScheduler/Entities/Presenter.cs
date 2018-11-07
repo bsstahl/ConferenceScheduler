@@ -17,6 +17,13 @@ namespace ConferenceScheduler.Entities
         public int Id { get; set; }
 
         /// <summary>
+        /// A secondary (optional) unique id for the presenter
+        /// typically used to sync with an external system
+        /// </summary>
+        /// <remarks>This is ignored by the schedule optimizer</remarks>
+        public string Uid { get; set; }
+
+        /// <summary>
         /// The name (for display) of the presenter
         /// </summary>
         public string Name { get; set; }

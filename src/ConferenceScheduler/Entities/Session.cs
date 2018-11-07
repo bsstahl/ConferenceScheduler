@@ -19,6 +19,13 @@ namespace ConferenceScheduler.Entities
         public int Id { get; set; }
 
         /// <summary>
+        /// A secondary (optional) unique id
+        /// typically used to sync with an external system
+        /// </summary>
+        /// <remarks>This is ignored by the schedule optimizer</remarks>
+        public string Uid { get; set; }
+
+        /// <summary>
         /// The title of the session.
         /// </summary>
         /// <remarks>This field is used for display only and is not needed by the optimizer</remarks>

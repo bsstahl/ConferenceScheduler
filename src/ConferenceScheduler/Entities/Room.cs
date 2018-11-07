@@ -18,6 +18,19 @@ namespace ConferenceScheduler.Entities
         public int Id { get; set; }
 
         /// <summary>
+        /// A secondary (optional) unique id
+        /// typically used to sync with an external system
+        /// </summary>
+        /// <remarks>This is ignored by the schedule optimizer</remarks>
+        public string Uid { get; set; }
+
+        /// <summary>
+        /// The name used by people to identify the room
+        /// This is often a combination of a building name and room number
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// The number of people that the room can comfortably and safely hold
         /// </summary>
         public int Capacity { get; set; }

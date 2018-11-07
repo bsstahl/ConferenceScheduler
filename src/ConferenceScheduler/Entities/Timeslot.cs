@@ -19,6 +19,13 @@ namespace ConferenceScheduler.Entities
         public int Id { get; set; }
 
         /// <summary>
+        /// A secondary (optional) unique id
+        /// typically used to sync with an external system
+        /// </summary>
+        /// <remarks>This is ignored by the schedule optimizer</remarks>
+        public string Uid { get; set; }
+
+        /// <summary>
         /// The 0-based index value of the conference day for multi-day conferences
         /// </summary>
         /// <remarks>Set the day to 0 for 1-day conferences</remarks>
