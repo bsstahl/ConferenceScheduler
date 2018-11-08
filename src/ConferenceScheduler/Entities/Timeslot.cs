@@ -128,10 +128,9 @@ namespace ConferenceScheduler.Entities
         public override bool Equals(object obj)
         {
             Timeslot other = obj as Timeslot; //avoid double casting 
-            if (object.ReferenceEquals(other, null))
-            {
+            if (other is null)
                 return false;
-            }
+
             return this.CompareTo(other) == 0;
         }
 

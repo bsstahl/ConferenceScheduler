@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ConferenceScheduler.Common" Version="2.0.0" />
+    <PackageReference Include="ConferenceScheduler.Common" Version="2.2.0" />
     <PackageReference Include="Google.OrTools" Version="6.9.5839" />
   </ItemGroup>
 
