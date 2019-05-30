@@ -5,38 +5,47 @@ using System.Text;
 
 namespace ConferenceScheduler.Builders
 {
-    public class SessionBuilder: Session
+    public class SessionBuilder
     {
+        private readonly Session _session = new Session();
+
         public Session Build()
         {
-            if (base.Id == 0)
+            if (_session.Id == 0)
                 throw new InvalidOperationException("Unable to determine Id");
 
-            return this;
+            return _session;
         }
 
         public Session Build(int nextId)
         {
-            if (base.Id == 0)
-                base.Id = nextId;
-            return this;
+            if (_session.Id == 0)
+                _session.Id = nextId;
+            return _session;
         }
 
-        public new SessionBuilder Id(int id)
+        public SessionBuilder Id(int id)
         {
-            base.Id = id;
+            _session.Id = id;
             return this;
         }
 
-        public new SessionBuilder Name(string name)
+        public SessionBuilder Name(string name)
         {
-            base.Name = name;
+            _session.Name = name;
             return this;
         }
 
-        public new SessionBuilder TopicId(int topicId)
+        public SessionBuilder TopicId(int topicId)
+        {
+            _session.TopicId = topicId;
+            return this;
+        }
+
+        public SessionBuilder AddPresenter(Presenter presenter)
         {
             throw new NotImplementedException();
         }
+
     }
 }

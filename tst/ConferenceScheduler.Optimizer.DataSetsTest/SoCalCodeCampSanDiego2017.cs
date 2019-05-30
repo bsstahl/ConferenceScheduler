@@ -41,7 +41,6 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
         public void ScheduleWithoutPreferences()
         {
             var engine = (null as IConferenceOptimizer).Create();
-            var sessions = new SessionsCollection();
 
             // Presenters
             var presenterRichClingman = Presenter.Create(1, "Rich Clingman");
@@ -76,6 +75,14 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
 
 
             // Sessions
+            var sessions = new SessionsCollection();
+
+            // TODO: Implement using SessionCollectionBuilder
+            //var s = new SessionBuilder()
+            //        .TopicId((int)Topic.SoftSkills)
+            //        .AddPresenter(presenterRichClingman)
+            //        .Build();
+
             var session01 = sessions.Add(1, (int)Topic.SoftSkills, presenterRichClingman);
             var session02 = sessions.Add(2, (int)Topic.IOT, presenterRichClingman);
 

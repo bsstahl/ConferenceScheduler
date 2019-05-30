@@ -101,5 +101,64 @@ namespace ConferenceScheduler.Builders.Test
             Assert.False(actualSession.TopicId.HasValue);
         }
 
+        [Fact]
+        public void ReturnAnEmptyPresenterCollectionIfNoneAreAdded()
+        {
+            var actualSession = new SessionBuilder()
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.False(actualSession.Presenters.Any());
+        }
+
+        [Fact]
+        public void ReturnASinglePresenterIfOneIsAdded()
+        {
+            var expected = new Entities.Presenter()
+            {
+                Id = Int32.MaxValue.GetRandom()
+            };
+
+            var actualSession = new SessionBuilder()
+                .AddPresenter(expected)
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Single(actualSession.Presenters);
+        }
+
+        [Fact]
+        public void ReturnTheCorrectNumberOfPresenters()
+        {
+            int count = 25.GetRandom(5);
+            var builder = new SessionBuilder();
+
+            for (int i = 0; i < count; i++)
+            {
+                builder.AddPresenter(new Entities.Presenter()
+                {
+                    Id = Int32.MaxValue.GetRandom()
+                });
+            }
+
+            var actualSession = builder
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(count, actualSession.Presenters.Count());
+        }
+
+        [Fact]
+        public void ReturnTheCorrectPresenterIfOneIsAdded()
+        {
+            var expected = new Entities.Presenter()
+            {
+                Id = Int32.MaxValue.GetRandom()
+            };
+
+            var actualSession = new SessionBuilder()
+                .AddPresenter(expected)
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(expected.Id, actualSession.Presenters.Single().Id);
+        }
+
     }
 }
