@@ -14,6 +14,9 @@ namespace ConferenceScheduler.Builders
             if (_session.Id == 0)
                 throw new InvalidOperationException("Unable to determine Id");
 
+            if (_session.Presenters == null)
+                _session.Presenters = new Presenter[] { };
+
             return _session;
         }
 
@@ -21,7 +24,7 @@ namespace ConferenceScheduler.Builders
         {
             if (_session.Id == 0)
                 _session.Id = nextId;
-            return _session;
+            return this.Build();
         }
 
         public SessionBuilder Id(int id)
@@ -44,7 +47,12 @@ namespace ConferenceScheduler.Builders
 
         public SessionBuilder AddPresenter(Presenter presenter)
         {
-            throw new NotImplementedException();
+            _session.Presenters = 
+                _session.Presenters == null ? 
+                    (new Presenter[] { presenter }) : 
+                    (IEnumerable<Presenter>)new List<Presenter>(_session.Presenters) { presenter };
+
+            return this;
         }
 
     }
