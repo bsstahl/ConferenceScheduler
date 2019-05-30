@@ -14,7 +14,9 @@ namespace ConferenceScheduler.Builders.Test
         public void ReturnASessionInstanceIfAnIdIsSupplied()
         {
             var actual = new SessionBuilder()
-                .Id(Int32.MaxValue.GetRandom()).Build();
+                .Id(Int32.MaxValue.GetRandom())
+                .Build();
+
             Assert.NotNull(actual);
         }
 
@@ -23,6 +25,7 @@ namespace ConferenceScheduler.Builders.Test
         {
             var actual = new SessionBuilder()
                 .Build(Int32.MaxValue.GetRandom());
+
             Assert.NotNull(actual);
         }
 

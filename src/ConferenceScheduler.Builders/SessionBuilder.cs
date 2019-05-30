@@ -9,17 +9,23 @@ namespace ConferenceScheduler.Builders
     {
         public Session Build()
         {
-            throw new NotImplementedException();
+            if (base.Id == 0)
+                throw new InvalidOperationException("Unable to determine Id");
+
+            return this;
         }
 
         public Session Build(int nextId)
         {
-            throw new NotImplementedException();
+            if (base.Id == 0)
+                base.Id = nextId;
+            return this;
         }
 
         public new SessionBuilder Id(int id)
         {
-            throw new NotImplementedException();
+            base.Id = id;
+            return this;
         }
     }
 }

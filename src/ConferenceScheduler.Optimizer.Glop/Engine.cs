@@ -47,8 +47,8 @@ namespace ConferenceScheduler.Optimizer.Glop
             model.CreateConstraints(v, r, sessions, rooms, timeslotIds, _disableTrace);
             model.CreateObjective(v, sessions, rooms, timeslotIds, _disableTrace);
 
-            int status = model.Solve();
-            if (status != Solver.OPTIMAL)
+            var resultStatus = model.Solve();
+            if (resultStatus != Solver.ResultStatus.OPTIMAL)
                 throw new NoFeasibleSolutionsException();
 
             return (null as IEnumerable<Assignment>).CreateAssignments(v, rooms.GetIdCollection(), timeslotIds, sessions.GetIdCollection());

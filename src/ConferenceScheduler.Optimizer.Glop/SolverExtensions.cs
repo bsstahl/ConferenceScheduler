@@ -13,7 +13,7 @@ namespace ConferenceScheduler.Optimizer.Glop
     {
         public static Solver CreateMixedIntegerProgrammingSolver(this Solver ignore)
         {
-            var solver = new Solver("MIP", Solver.CBC_MIXED_INTEGER_PROGRAMMING);
+            var solver = new Solver("MIP", Solver.OptimizationProblemType.CBC_MIXED_INTEGER_PROGRAMMING);
             if (solver == null)
                 throw new InvalidOperationException("Could not create solver");
             return solver;

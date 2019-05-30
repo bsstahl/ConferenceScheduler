@@ -20,7 +20,7 @@ namespace ConferenceScheduler.Builders.Test
         public void ReturnATimeslotWithTheStartTimeSpecifiedByTheStartingAtMethod()
         {
             int id = Int32.MaxValue.GetRandom();
-            double startTime = 20.0.GetRandom(0);
+            var startTime = Convert.ToSingle((20.0).GetRandom(0));
             var actual = new TimeslotBuilder(id).StartingAt(startTime).Build();
             Assert.Equal(startTime, actual.StartHour);
         }
