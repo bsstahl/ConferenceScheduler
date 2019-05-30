@@ -81,5 +81,25 @@ namespace ConferenceScheduler.Builders.Test
             Assert.Equal(expected, actualSession.Name);
         }
 
+        [Fact]
+        public void ReturnTheCorrectTopicIdIfSupplied()
+        {
+            var expected = 25.GetRandom();
+            var actualSession = new SessionBuilder()
+                .TopicId(expected)
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(expected, actualSession.TopicId.Value);
+        }
+
+        [Fact]
+        public void ReturnANullTopicIdIfNotSupplied()
+        {
+            var actualSession = new SessionBuilder()
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.False(actualSession.TopicId.HasValue);
+        }
+
     }
 }

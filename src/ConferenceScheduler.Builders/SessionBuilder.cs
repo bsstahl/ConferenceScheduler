@@ -33,5 +33,10 @@ namespace ConferenceScheduler.Builders
             base.Name = name;
             return this;
         }
+
+        public new SessionBuilder TopicId(int topicId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
