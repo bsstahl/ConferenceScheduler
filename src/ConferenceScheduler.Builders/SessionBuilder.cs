@@ -55,5 +55,10 @@ namespace ConferenceScheduler.Builders
             return this;
         }
 
+        public SessionBuilder AddPresenter(PresenterBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -160,5 +160,48 @@ namespace ConferenceScheduler.Builders.Test
             Assert.Equal(expected.Id, actualSession.Presenters.Single().Id);
         }
 
+        [Fact]
+        public void ReturnASinglePresenterIfOneBuilderIsAdded()
+        {
+            var actualSession = new SessionBuilder()
+                .AddPresenter(new PresenterBuilder()
+                    .Id(Int32.MaxValue.GetRandom()))
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Single(actualSession.Presenters);
+        }
+
+        [Fact]
+        public void ReturnTheSameNumberOfPresentersAsBuildersAdded()
+        {
+            int count = 25.GetRandom(5);
+            var builder = new SessionBuilder();
+
+            for (int i = 0; i < count; i++)
+            {
+                builder.AddPresenter(new PresenterBuilder()
+                    .Id(Int32.MaxValue.GetRandom()));
+            }
+
+            var actualSession = builder
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(count, actualSession.Presenters.Count());
+        }
+
+        [Fact]
+        public void ReturnTheCorrectPresenterIfOneBuilderIsAdded()
+        {
+            var expectedId = Int32.MaxValue.GetRandom();
+            var expected = new PresenterBuilder()
+                .Id(expectedId);
+
+            var actualSession = new SessionBuilder()
+                .AddPresenter(expected)
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(expectedId, actualSession.Presenters.Single().Id);
+        }
+
     }
 }
