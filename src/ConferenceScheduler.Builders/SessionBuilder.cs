@@ -57,7 +57,11 @@ namespace ConferenceScheduler.Builders
 
         public SessionBuilder AddPresenter(PresenterBuilder builder)
         {
-            throw new NotImplementedException();
+            // Note: There is currently no benefit from
+            // delaying the Build here. If there becomes one later,
+            // simply add these to a collection and then execute them
+            // in the Session.Build().
+            return this.AddPresenter(builder.Build());
         }
 
     }
