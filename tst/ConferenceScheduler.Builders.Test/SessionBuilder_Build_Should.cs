@@ -70,5 +70,16 @@ namespace ConferenceScheduler.Builders.Test
             Assert.NotEqual(ignored, actualSession.Id);
         }
 
+        [Fact]
+        public void ReturnTheCorrectSessionNameIfSupplied()
+        {
+            var expected = string.Empty.GetRandom();
+            var actualSession = new SessionBuilder()
+                .Name(expected)
+                .Build(Int32.MaxValue.GetRandom());
+
+            Assert.Equal(expected, actualSession.Name);
+        }
+
     }
 }

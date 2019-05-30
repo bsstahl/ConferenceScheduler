@@ -27,5 +27,11 @@ namespace ConferenceScheduler.Builders
             base.Id = id;
             return this;
         }
+
+        public new SessionBuilder Name(string name)
+        {
+            base.Name = name;
+            return this;
+        }
     }
 }
