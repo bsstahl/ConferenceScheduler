@@ -11,19 +11,29 @@ namespace ConferenceScheduler.Entities
     /// </summary>
     public class Session : IIdentifiable
     {
-        private List<Session> _dependentSessions;
+        private readonly List<Session> _dependentSessions;
 
         /// <summary>
         /// The primary-key identifier of the object
         /// </summary>
+        /// <remarks>This is the ID used by the schedule optimizer</remarks>
         public int Id { get; set; }
 
         /// <summary>
-        /// A secondary (optional) unique id
+        /// An optional unique id
         /// typically used to sync with an external system
         /// </summary>
         /// <remarks>This is ignored by the schedule optimizer</remarks>
-        public string Uid { get; set; }
+        public string SourceSystemId { get; set; }
+
+        /// <summary>
+        /// An immutable unique id assigned at creation
+        /// used to create relationships between Sessions
+        /// regardless of whether those sessions have had IDs
+        /// assigned to them yet.
+        /// </summary>
+        /// <remarks>This is ignored by the schedule optimizer</remarks>
+        public Guid Uid { get; private set; }
 
         /// <summary>
         /// The title of the session.
@@ -56,6 +66,7 @@ namespace ConferenceScheduler.Entities
         public Session()
         {
             _dependentSessions = new List<Session>();
+            this.Uid = Guid.NewGuid();
         }
 
         /// <summary>

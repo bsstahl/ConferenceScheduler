@@ -8,18 +8,9 @@ namespace ConferenceScheduler.Builders
     public class PresenterBuilder : Presenter
     {
         bool _autoId = true;
-        List<int> _unavailableForTimeslots = new List<int>();
-        List<int> _preferredTimeslots = new List<int>();
 
-        public bool HasSpecifiedId()
-        {
-            return !base.Id.Equals(0);
-        }
-
-        public int GetSpecifiedId()
-        {
-            return base.Id;
-        }
+        readonly List<int> _unavailableForTimeslots = new List<int>();
+        readonly List<int> _preferredTimeslots = new List<int>();
 
         public Presenter Build()
         {
