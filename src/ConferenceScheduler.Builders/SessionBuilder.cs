@@ -1,6 +1,7 @@
 ﻿using ConferenceScheduler.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ConferenceScheduler.Builders
@@ -8,23 +9,38 @@ namespace ConferenceScheduler.Builders
     public class SessionBuilder
     {
         private readonly Session _session = new Session();
+        private readonly List<SessionBuilder> _dependentSessions = new List<SessionBuilder>();
 
         public Session Build()
         {
-            if (_session.Id == 0)
+            if ((_session.Id == 0) || (_dependentSessions.Any()))
                 throw new InvalidOperationException("Unable to determine Id");
 
-            if (_session.Presenters == null)
-                _session.Presenters = new Presenter[] { };
-
-            return _session;
+            return this.Build(0);
         }
 
         public Session Build(int nextId)
         {
+            int i = nextId;
+
             if (_session.Id == 0)
-                _session.Id = nextId;
-            return this.Build();
+            {
+                _session.Id = i;
+                i++;
+            }
+
+            if (_session.Presenters == null)
+                _session.Presenters = new Presenter[] { };
+
+            foreach (var dependentSession in _dependentSessions)
+            {
+                var s = dependentSession.Build(i);
+                if (s.Id == i)
+                    i++;
+                s.AddDependency(_session);
+            }
+
+            return _session;
         }
 
         public SessionBuilder Id(int id)
@@ -62,6 +78,12 @@ namespace ConferenceScheduler.Builders
             // simply add these to a collection and then execute them
             // in the Session.Build().
             return this.AddPresenter(builder.Build());
+        }
+
+        public SessionBuilder AddDependentSession(SessionBuilder dependentSession)
+        {
+            _dependentSessions.Add(dependentSession);
+            return this;
         }
 
     }

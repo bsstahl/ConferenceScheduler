@@ -5,11 +5,17 @@ using System.Text;
 using ConferenceScheduler.Interfaces;
 using ConferenceScheduler.Entities;
 using Xunit.Abstractions;
+using ConferenceScheduler.Builders;
 
 namespace ConferenceScheduler.Optimizer.DataSetsTest
 {
     public static class ExtensionMethods
     {
+        public static SessionBuilder Topic(this SessionBuilder builder, SoCalSanDiegoTopic topic)
+        {
+            return builder.TopicId((int)topic);
+        }
+
         public static IConferenceOptimizer Create(this IConferenceOptimizer ignore)
         {
             return ignore.Create(new EventHandler());
@@ -55,8 +61,14 @@ namespace ConferenceScheduler.Optimizer.DataSetsTest
             output.WriteLine(sb.ToString());
         }
 
-        public static void WriteSchedule(this ITestOutputHelper output, IEnumerable<Assignment> assignments, IEnumerable<Session> sessions, IDictionary<int, string> names)
+        public static void WriteSchedule(this ITestOutputHelper output, IEnumerable<Assignment> assignments, IEnumerable<Session> sessions)
         {
+            var names = new Dictionary<int, string>();
+            foreach (var s in sessions)
+            {
+                names.Add(s.Id, s.Name);
+            }
+
             var timeslots = assignments.Select(a => a.TimeslotId).Distinct().OrderBy(a => a);
             var rooms = assignments.Select(a => a.RoomId).Distinct().OrderBy(a => a);
 
