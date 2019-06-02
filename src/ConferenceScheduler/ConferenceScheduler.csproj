@@ -4,14 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ConferenceScheduler.Common</PackageId>
     <Authors>Barry S. Stahl</Authors>
-    <Company>CopperByte, Inc.</Company>
+    <Company></Company>
     <Product>Conference Schedule Optimizer</Product>
     <Description>Common elements for use by conference scheduling tools including Entities, Exceptions, Extension menthods and Interfaces.</Description>
-    <Copyright>2017 by CopperByte, Inc. - Some Rights Reserved</Copyright>
+    <Copyright>2017-2019 by Barry S. Stahl - Some Rights Reserved</Copyright>
     <PackageLicenseUrl>https://github.com/bsstahl/ConferenceScheduler/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/bsstahl/ConferenceScheduler</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

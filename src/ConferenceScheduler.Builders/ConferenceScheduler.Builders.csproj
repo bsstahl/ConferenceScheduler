@@ -2,10 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>ConferenceScheduler.Builders</PackageId>
+    <Version>1.1.0</Version>
+    <Company />
+    <Copyright>2017-2019 by Barry S. Stahl - Some Rights Reserved</Copyright>
+    <Product>Conference Schedule Optimizer Data Builders</Product>
+    <Description>Builders for creating data useable by the Conference Schedule Optimizer.</Description>
+    <PackageLicenseUrl>https://github.com/bsstahl/ConferenceScheduler/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/bsstahl/ConferenceScheduler</PackageProjectUrl>    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Barry S. Stahl</Authors>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConferenceScheduler\ConferenceScheduler.csproj" />
+    <PackageReference Include="ConferenceScheduler.Common" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

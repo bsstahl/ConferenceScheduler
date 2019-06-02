@@ -4,23 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ConferenceScheduleOptimizer</PackageId>
     <Authors>Barry S. Stahl</Authors>
-    <Company>CopperByte, Inc.</Company>
+    <Company></Company>
     <Product>Conference Schedule Optimizer</Product>
     <Description>A NetStandard2.0 compliant schedule optimizer for small conferences and code camps.</Description>
     <PackageLicenseUrl>https://github.com/bsstahl/ConferenceScheduler/blob/master/LICENSE</PackageLicenseUrl>
-    <Copyright>2017 by CopperByte, Inc. - Some Rights Reserved</Copyright>
+    <Copyright>2017-2019 by Barry S. Stahl - Some Rights Reserved</Copyright>
     <PackageProjectUrl>https://github.com/bsstahl/ConferenceScheduler</PackageProjectUrl>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ConferenceScheduler.Common" Version="2.3.0" />
     <PackageReference Include="Google.OrTools" Version="7.1.6720" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ConferenceScheduler\ConferenceScheduler.csproj" />
   </ItemGroup>
 
 </Project>
