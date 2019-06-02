@@ -11,6 +11,8 @@ namespace ConferenceScheduler.Builders
         private readonly Session _session = new Session();
         private readonly List<SessionBuilder> _dependentSessions = new List<SessionBuilder>();
 
+        public Guid BuilderId { get; private set; } = Guid.NewGuid();
+
         public Session Build()
         {
             if ((_session.Id == 0) || (_dependentSessions.Any()))
@@ -78,12 +80,6 @@ namespace ConferenceScheduler.Builders
             // simply add these to a collection and then execute them
             // in the Session.Build().
             return this.AddPresenter(builder.Build());
-        }
-
-        public SessionBuilder AddDependentSession(SessionBuilder dependentSession)
-        {
-            _dependentSessions.Add(dependentSession);
-            return this;
         }
 
     }
